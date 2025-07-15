@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的弟弟调查问卷</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #bbdefb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            background: linear-gradient(to right, #2196f3, #21cbf3);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .brothers-img {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .brother {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(to bottom, #4fc3f7, #0288d1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 15px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .brother:before {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #ffcc80;
+            border-radius: 50%;
+            top: 30px;
+        }
+        
+        .brother:after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 40px;
+            background-color: #e0f7fa;
+            border-radius: 50%;
+            bottom: 10px;
+        }
+        
+        .brother i {
+            font-size: 3.5rem;
+            color: white;
+            z-index: 2;
+        }
+        
+        .survey-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 1.4rem;
+            color: #1565c0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .input-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            color: #2196f3;
+            font-size: 1.4rem;
+        }
+        
+        input[type="date"],
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            font-size: 1.2rem;
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            background-color: #f5fbff;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="date"]:focus,
+        input[type="text"]:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 25px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .radio-option:hover {
+            transform: translateY(-3px);
+        }
+        
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+        
+        .radio-custom {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #2196f3;
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .radio-custom::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            background: #2196f3;
+            border-radius: 50%;
+            display: block;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+        
+        .radio-option input:checked + .radio-custom::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .radio-option label {
+            font-size: 1.3rem;
+            color: #37474f;
+            cursor: pointer;
+            margin: 0;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, #2196f3, #21cbf3);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.6);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .submit-btn i {
+            margin-left: 10px;
+        }
+        
+        .result-container {
+            background-color: #e3f2fd;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-container h2 {
+            color: #1565c0;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #90caf9;
+            padding-bottom: 10px;
+        }
+        
+        .result-content {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #37474f;
+        }
+        
+        .result-content strong {
+            color: #2196f3;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #e3f2fd;
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .brother {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .brother i {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-smile"></i> 我的弟弟调查问卷</h1>
+            <p>亲爱的弟弟，请认真填写这份问卷，让哥哥更了解你！</p >
+            <div class="brothers-img">
+                <div class="brother">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="brother">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="brother">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+        
+        <div class="survey-form">
+            <form id="surveyForm">
+                <div class="form-group">
+                    <label for="birthdate">1. 你的出生日期：</label>
+                    <div class="input-container">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" id="birthdate" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>2. 你是否爱你的哥哥？</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="loveYes" name="love" value="yes" required>
+                            <span class="radio-custom"></span>
+                            <label for="loveYes">当然爱，我超爱哥哥！</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="loveNo" name="love" value="no">
+                            <span class="radio-custom"></span>
+                            <label for="loveNo">暂时不爱（请哥哥反思）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    提交问卷 <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+            
+            <div class="result-container" id="resultContainer">
+                <h2><i class="fas fa-poll"></i> 问卷提交结果</h2>
+                <div class="result-content" id="resultContent">
+                    <!-- 结果将动态显示在这里 -->
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>哥哥永远爱你 ❤️ | 制作于 2023年</p >
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const birthdate = document.getElementById('birthdate').value;
+            const love = document.querySelector('input[name="love"]:checked').value;
+            
+            // 格式化日期显示
+            const formattedDate = new Date(birthdate).toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // 创建结果内容
+            let resultHTML = `
+                <p><strong>你的出生日期：</strong> ${formattedDate}</p >
+            `;
+            
+            if (love === 'yes') {
+                resultHTML += `
+                    <p><strong>你对哥哥的爱：</strong> <span style="color:#e91e63;">当然爱，我超爱哥哥！</span></p >
+                    <p style="margin-top: 20px; font-size: 1.5rem; background: #e3f2fd; padding: 15px; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-heart" style="color:#e91e63;"></i> 哥哥也超爱你！谢谢弟弟！ <i class="fas fa-heart" style="color:#e91e63;"></i>
+                    </p >
+                `;
+            } else {
+                resultHTML += `
+                    <p><strong>你对哥哥的爱：</strong> <span style="color:#f44336;">暂时不爱（请哥哥反思）</span></p >
+                    <p style="margin-top: 20px; font-size: 1.5rem; background: #ffebee; padding: 15px; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-sad-tear" style="color:#f44336;"></i> 哥哥会好好反思，争取让你重新爱上哥哥！
+                    </p >
+                `;
+            }
+            
+            // 显示结果
+            document.getElementById('resultContent').innerHTML = resultHTML;
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // 滚动到结果区域
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
